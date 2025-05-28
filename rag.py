@@ -7,6 +7,7 @@ from typing_extensions import Annotated, TypedDict
 from typing import Literal, List
 from langchain.chat_models import init_chat_model
 from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_community.vectorstores import FAISS
 from langchain_mistralai import MistralAIEmbeddings
 from langchain_core.documents import Document
 from langchain import hub
@@ -86,15 +87,16 @@ def answer_questions(user_question: str, debug: bool = False):
         model = init_chat_model("mistralai:mistral-large-latest", temperature=0)
     
     embeddings = MistralAIEmbeddings(model="mistral-embed")
-    vector_store = InMemoryVectorStore(embeddings)
+    #vector_store = InMemoryVectorStore(embeddings)
     
     # Load documents
     documents = get_atlas_data("atlas-data/dist/ATLAS.yaml")
     if debug: print("Number of documents: ", len(documents), "\n\n")
 
     # Embed documents
-    vector_store.add_documents(documents)
-
+    #vector_store.add_documents(documents)
+    vector_store = FAISS.from_documents(documents, embeddings)
+    
     # Get RAG prompt
     prompt = hub.pull("rlm/rag-prompt")
     if debug: print(f"The RAG prompt is : ", prompt.messages[0].prompt.template, "\n\n")

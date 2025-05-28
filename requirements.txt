@@ -8,4 +8,5 @@ langchain_groq
 langchain_mistralai
 langgraph
 langsmith
+faiss-cpu
 pydantic
