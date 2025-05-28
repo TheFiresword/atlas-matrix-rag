@@ -128,12 +128,13 @@ def answer_questions(user_question: str, debug: bool = False):
         Image.open("graph.png").show()
     
     result = graph.invoke({"question": user_question})
-    print(result['answer'])
     return result['answer']
-    
-answer_questions("Comment une attaque par data poisoning fonctionne selon ATLAS ?", debug=True)
 
-if __name__ == "main":
+
+#setup_environment() 
+#print(answer_questions("Comment une attaque par data poisoning fonctionne selon ATLAS ?", debug=True))
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--question", '-q', required=True, help="Input the question you want to ask.")
     parser.add_argument("--debug", '-d', action="store_true", help="To debug or not.")
@@ -141,5 +142,5 @@ if __name__ == "main":
     args = parser.parse_args()
     question: str = args.question
     debug: bool = args.debug
-    
-    answer_questions(question, debug)
+    setup_environment()
+    print(answer_questions(question, debug))
